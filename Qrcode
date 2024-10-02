@@ -1,0 +1,20 @@
+import qrcode
+from PIL import Image, ImageDraw, ImageFont
+
+
+qr=qrcode.QRCode(version=1,error_correction=qrcode.constants.ERROR_CORRECT_H,box_size=5,border=4)
+qr.add_data("https://x.com/SufalThakre")
+qr.make(fit=True)
+img=qr.make_image(fill_color="black",back_color="lightblue").convert("RGB")
+
+draw = ImageDraw.Draw(img)
+font = ImageFont.truetype("verdana.ttf", 12)
+text = "Sufal Thakre (X.com profile)"
+
+text_bbox = draw.textbbox((0, 0), text, font=font)
+textwidth, textheight = text_bbox[2] - text_bbox[0], text_bbox[3] - text_bbox[1]
+
+text_x = (img.size[0] - textwidth) // 2
+text_y = img.size[1] - textheight - 5
+draw.text((text_x, text_y), text, font=font, fill="black")
+img.save("X.comProfile.png")
